@@ -91,7 +91,7 @@ public class DenseMatrix implements Matrix { //Creating a Dense Matrix class whi
 
     }
 
-    int core_count = Runtime.getRuntime().availableProcessors();
+    int core_count = 2; /*Runtime.getRuntime().availableProcessors();*/
     Thread[] t = new Thread[core_count];
     for (int i = 0; i < core_count; i++) {  //Creating threads
       Thread t1 = new Thread(new MyCode());
