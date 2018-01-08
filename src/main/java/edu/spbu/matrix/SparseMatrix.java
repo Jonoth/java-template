@@ -38,7 +38,7 @@ public class SparseMatrix  implements Matrix {
           tmap.put(j, number); //registering
         }
       }
-      if (tmap != null) {
+      if (!tmap.isEmpty()) {
         map.put(0, tmap);
       }
 
@@ -54,7 +54,7 @@ public class SparseMatrix  implements Matrix {
             tmap.put(j, number);
           }
         }
-        if (tmap != null) {
+        if (!tmap.isEmpty()) {
           map.put(i, tmap);
         }
       }
@@ -123,7 +123,7 @@ public class SparseMatrix  implements Matrix {
           resRow.put(key2, resValue);
         }
       }
-      if (resRow != null) {
+      if (!resRow.isEmpty()) {
         resS.map.put(key1, resRow);
       }
     }
@@ -155,7 +155,7 @@ public class SparseMatrix  implements Matrix {
           resRow.put(i, resValue);
         }
       }
-      if (resRow != null) {
+      if (!resRow.isEmpty()) {
         res.map.put(key1, resRow);
       }
 
@@ -211,13 +211,16 @@ public class SparseMatrix  implements Matrix {
       //System.out.print("a ");
       // System.out.println(a.get(j));
       //  System.out.print("b ");
-      // System.out.println(b.get(j));
-      if (a.equals(b) == false) {
+      // System.out.println(b.get(j));// }
+      if (!(a == null) && !(b == null)) {
+        if (!a.equals(b)) {
+          t = false;
+        }
+      }
+      else if ((a == null) ^ (b == null)) {
         t = false;
-        // }
       }
     }
-
     return t;
   }
 }
