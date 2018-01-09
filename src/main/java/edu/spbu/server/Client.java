@@ -1,44 +1,47 @@
 package edu.spbu.server;
 
-import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class Client {
+    public static void main(String[] args) throws IOException {
+        Socket c = new Socket(InetAddress.getByName("localhost"), 2357); /*wwww.yahoo.com 80*/
+        Client m = new Client(c);
+        m.start();
+    }
+    private Socket c;
+    private InputStream is;
+    private OutputStream os;
 
-    private Socket socket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    public Client(Socket c) throws IOException {
+        this.c = c;
+        this.is = c.getInputStream();
+        this.os = c.getOutputStream();
+    }
 
-    public Client(Socket socket) throws IOException {
-        this.socket = socket;
-        this.inputStream = socket.getInputStream();
-        this.outputStream = socket.getOutputStream();
+    public void start() throws IOException {
+        writeOutputStream();
+        readInputStream();
     }
 
     public void writeOutputStream() throws IOException {
-        String str = "GET /MyFile.html HTTP/1.1\r\n\r\n";
-        //String str = "GET / HTTP/1.1\r\n\r\n";
-        outputStream.write(str.getBytes());
-        outputStream.write("".getBytes());
-        outputStream.flush();
-
-        /*System.out.println("Enter your text: ");
-        String str;
-        Scanner scanner = new Scanner(System.in);
-        str = scanner.next();
-        os.write(str.getBytes());
-        os.flush();*/
+        String s = "GET /2357.html HTTP/1.1\n" +
+                "Host: www.yahoo.com\n" +
+                "Connection: keep-alive\n" +
+                "Cache-Control: max-age=0\n" +
+                "User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36\n" +
+                "Upgrade-Insecure-Requests: 1\n\n";
+        os.write(s.getBytes());
+        os.flush();
     }
 
-    public void readInputStream() throws IOException {
-        Scanner scan = new Scanner(inputStream);
-        String str = new String();
-        while (scan.hasNextLine()){
-            str = scan.nextLine();
-            System.out.println(str);
+    public void readInputStream() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String s = br.readLine();
+        while (s!=null){
+            System.err.println(s);
+            s = br.readLine();
         }
-
     }
 }
-
